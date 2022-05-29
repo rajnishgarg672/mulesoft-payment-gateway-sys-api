@@ -1,0 +1,54 @@
+#%RAML 1.0
+title: mulesoft-payment-gateway-sys-api
+description: System API for working with WeWork payment gateway system
+version: v1.0.0
+
+types:
+  
+  paymentDetails: 
+    type: object
+    properties:
+      amount:
+        type: number
+        description: | 
+          total amount
+      currency:
+        type: string
+        description: | 
+          currency type
+      payment_method: 
+        type: object
+        properties: 
+          cardtype: string
+          fields:
+            type: object
+            properties:
+              cardnumber: 
+                type: string
+              expiration_month: 
+                type: string
+              expiration_year:
+                type: string
+              cvv:
+                type: string
+              name:
+                type: string
+
+/payment:
+  description: payment details
+  displayName: Inventory
+  post:
+    description: Create shopping Cart
+    body:
+      application/json:
+          type: paymentDetails
+          example: !include example/payment-body.raml
+              
+    responses:
+      201:
+        body: 
+          application/json: 
+            example: 
+              {
+                "message": "payment is successfull"
+              }

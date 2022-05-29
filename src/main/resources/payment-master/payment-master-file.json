@@ -1,0 +1,74 @@
+{
+  "paymentDetails": [
+    {
+      "amount": 1050,
+      "currency": "USD",
+      "payment_method": {
+        "cardtype": "us_visa_card",
+        "fields": {
+          "cardnumber": "2313131678912345",
+          "expiration_month": "6",
+          "expiration_year": "23",
+          "cvv": "740",
+          "name": "stephen"
+        }
+      }
+    },
+    {
+      "amount": 1150,
+      "currency": "USD",
+      "payment_method": {
+        "cardtype": "us_visa_card",
+        "fields": {
+          "cardnumber": "4111111111111111",
+          "expiration_month": "12",
+          "expiration_year": "27",
+          "cvv": "789",
+          "name": "John Doe"
+        }
+      }
+    },
+    {
+      "amount": 1050,
+      "currency": "USD",
+      "payment_method": {
+        "cardtype": "us_discover_card",
+        "fields": {
+          "cardnumber": "9725234894231456",
+          "expiration_month": "12",
+          "expiration_year": "26",
+          "cvv": "769",
+          "name": "raj"
+        }
+      }
+    },
+    {
+      "amount": 1050,
+      "currency": "USD",
+      "payment_method": {
+        "cardtype": "us_amex_card",
+        "fields": {
+          "cardnumber": "9122745347893456",
+          "expiration_month": "2",
+          "expiration_year": "25",
+          "cvv": "759",
+          "name": "joseph"
+        }
+      }
+    },
+    {
+      "amount": 2050,
+      "currency": "USD",
+      "payment_method": {
+        "cardtype": "us_visa_card",
+        "fields": {
+          "cardnumber": "4111111111111222",
+          "expiration_month": "12",
+          "expiration_year": "25",
+          "cvv": "789",
+          "name": "John Doe"
+        }
+      }
+    }
+  ]
+}

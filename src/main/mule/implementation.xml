@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="implementation-logic" doc:id="6b9875d8-e2ea-4a19-ae6f-eb37800a28ac" >
+		<ee:transform doc:name="intialization and storing payload in variables" doc:id="9b32b996-c84d-4af1-b2d6-425bfd7a1a62" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="incomingPaymentDetails" ><![CDATA[%dw 2.0
+output application/json
+---
+[payload]]]></ee:set-variable>
+				<ee:set-variable variableName="authAmount" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.amount]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="6a99777f-7775-411d-a01b-3df8c25b0705" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"tracepoint": "INTIALIZATION",&#10;	"text":"After storing the payload in variables",&#10;	trackingId:correlationId&#10;}]'/>
+		<flow-ref doc:name="extract payment master files" doc:id="d0acf4a2-b9e6-4260-b833-75e1f1248e3f" name="storing-master-payment-details"/>
+		<logger level="INFO" doc:name="Logger" doc:id="00d90891-c100-455c-bd9c-60adc7da9c46" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"tracepoint": "PAYMENT-MASTER-FILE",&#10;	"text":"After extracting payment master file",&#10;	trackingId:correlationId&#10;}]'/>
+		<ee:transform doc:name="payment extraction logic" doc:id="333ef937-0309-403c-bd38-bd35d437ebf8" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="extractedPayment" ><![CDATA[%dw 2.0
+output application/json
+---
+(vars.incomingPaymentDetails flatMap(v) -> ( 
+    vars.paymentArray filter (v.payment_method.cardtype == $.payment_method.cardtype and v.payment_method.fields.cardnumber == $.payment_method.fields.cardnumber and v.payment_method.fields.expiration_month == $.payment_method.fields.expiration_month and v.payment_method.fields.cvv == $.payment_method.fields.cvv and v.payment_method.fields.expiration_year ==$.payment_method.fields.expiration_year )))..amount[0]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="216672d1-6c29-46c4-be1d-e6884f1f6183" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"tracepoint": "AUTH-AMOUNT-EXTRACTION",&#10;	"text":"After extracting the authorization amount",&#10;	trackingId:correlationId&#10;}]'/>
+		<set-variable value="#[%dw 2.0&#10;output application/json&#10;---&#10;if (!isEmpty(vars.extractedPayment) and vars.extractedPayment &gt;= vars.authAmount) true else false]" doc:name="validAmount" doc:id="06932e4a-f956-4b42-950b-5130efced6ff" variableName="validAmount"/>
+		<logger level="INFO" doc:name="Logger" doc:id="894405e8-83be-4a64-9d3b-4a942987148d" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"tracepoint": "VALID-AMOUNT",&#10;	"text":"After extracting decision for amount validation",&#10;	payload:vars.validAmount,&#10;	trackingId:correlationId&#10;}]'/>
+		<choice doc:name="isAuthorized decision" doc:id="a7ab5791-ad0c-4f0e-afac-19f4af12391c" >
+			<when expression="#[vars.validAmount == true]">
+				<ee:transform doc:name="auth amount validation" doc:id="f5c553c3-8aca-485d-b1e9-842258bb1ef2">
+			<ee:message>
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"payment is authorized and successful"]]></ee:set-payload>
+			</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/json
+---
+201]]></ee:set-variable>
+					</ee:variables>
+		</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="invalid amount" doc:id="437a2cab-fe43-4319-9415-4c0510066437" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"payment is not authorized, please validate the card details"]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/json
+---
+403]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="end" doc:id="4a2b63a4-131b-4cef-8f67-4bdd85d27184" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	&#10;	"tracepoint": "COMPLETE",&#10;	"text":"transaction is completed",&#10;	payload:payload,&#10;	trackingId:correlationId&#10;}]'/>
+	</sub-flow>
+	<sub-flow name="storing-master-payment-details" doc:id="b90f1c39-586d-447a-ba8f-9329ddb489d7" >
+		<file:read doc:name="Read" doc:id="1363c0bb-7c71-4934-a305-dd8ca9a82ed9" config-ref="File_Config" path='#["payment-master-file.json"]'/>
+		<ee:transform doc:name="Transform Message" doc:id="9ba006da-4799-495a-892e-b43191f5ec6a" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="paymentArray" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.paymentDetails]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+</mule>
