@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="a959214d-3b0f-4809-9125-6f423d2f2989" file="mulesoft-payment-gateway-sys-api-${env}.yaml" key="${masterKey}" >
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
-	<global-property doc:name="Global Property" doc:id="4a7a61ec-6f53-416d-ac7f-695a51949b68" name="masterKey" value="placeholder" />
+	<global-property doc:name="Global Property" doc:id="4a7a61ec-6f53-416d-ac7f-695a51949b68" name="masterKey" value="useme" />
 	<configuration doc:name="Configuration" doc:id="0010fa23-32ac-4ccc-8da1-9b5af444cf25" defaultErrorHandler-ref="global-error-handlerError_Handler" />
 	<configuration-properties doc:name="Configuration properties" doc:id="2f98704d-06b3-4656-a31c-eec33e482213" file="mulesoft-payment-gateway-sys-api-global.yaml" />
 	<file:config name="File_Config" doc:name="File Config" doc:id="593bb514-646a-4549-8ca1-7143f0ae38b3" >
