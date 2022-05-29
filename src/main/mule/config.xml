@@ -18,12 +18,6 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<global-property doc:name="Global Property" doc:id="4a7a61ec-6f53-416d-ac7f-695a51949b68" name="masterKey" value="placeholder" />
 	<configuration doc:name="Configuration" doc:id="0010fa23-32ac-4ccc-8da1-9b5af444cf25" defaultErrorHandler-ref="global-error-handlerError_Handler" />
 	<configuration-properties doc:name="Configuration properties" doc:id="2f98704d-06b3-4656-a31c-eec33e482213" file="mulesoft-payment-gateway-sys-api-global.yaml" />
-	<http:request-config name="HTTP_Request_configuration_aliexpress" doc:name="HTTP Request configuration" doc:id="279eaa4f-1e53-4d8a-8036-b2b102771fc2" >
-		<http:request-connection protocol="HTTPS" host="#[vars.configSysApi.aliexpressHost]" port="#[vars.configSysApi.aliexpressPort]" />
-		<http:default-headers >
-			<http:default-header key="#[vars.configSysApi.aliexpressApiKey]" value="#[vars.configSysApi.aliexpressSecret]" />
-		</http:default-headers>
-	</http:request-config>
 	<file:config name="File_Config" doc:name="File Config" doc:id="593bb514-646a-4549-8ca1-7143f0ae38b3" >
 		<file:connection workingDir="#[p('app.home') ++ &quot;/payment-master&quot;]" />
 	</file:config>
