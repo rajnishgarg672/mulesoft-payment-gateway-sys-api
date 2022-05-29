@@ -148,10 +148,14 @@ error: error.description,
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not Implemented"}]]></ee:set-payload>
+{
+message: "internal server error", 
+error: error.description,
+ trackingId:correlationId
+}]]></ee:set-payload>
 				</ee:message>
 				<ee:variables >
-					<ee:set-variable variableName="httpStatus" ><![CDATA[501]]></ee:set-variable>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
 		</on-error-propagate>
