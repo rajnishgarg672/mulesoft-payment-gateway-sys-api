@@ -74,7 +74,7 @@ message:"payment is not authorized, please validate the card details",
 						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
 output application/json
 ---
-402]]></ee:set-variable>
+201]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</otherwise>
