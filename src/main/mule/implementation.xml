@@ -44,7 +44,10 @@ output application/json
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-"payment is authorized and successful"]]></ee:set-payload>
+{
+message:"payment is authorized and successful",
+"status": "APPROVED"
+}]]></ee:set-payload>
 			</ee:message>
 					<ee:variables >
 						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
@@ -60,13 +63,18 @@ output application/json
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-"payment is not authorized, please validate the card details"]]></ee:set-payload>
+{
+message:"payment is not authorized, please validate the card details",
+"ReasonCode": "DECLINE"
+
+
+}]]></ee:set-payload>
 					</ee:message>
 					<ee:variables >
 						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
 output application/json
 ---
-403]]></ee:set-variable>
+402]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</otherwise>
