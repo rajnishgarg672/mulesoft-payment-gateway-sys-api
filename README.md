@@ -47,7 +47,7 @@ Anypoint Studio offers several ways to import a project into the workspace, for 
 
 
 ### Running on Studio <a name="runonstudio"/>
-Once you have imported you mulesoft-payment-gateway-sys-api into Anypoint Studio you need to follow these steps to run it:
+Once you have imported  mulesoft-payment-gateway-sys-api into Anypoint Studio you need to follow these steps to run it:
 
 + Locate the properties file `mulesoft-payment-gateway-sys-api-<env>.yaml`, in src/main/mule/resources as we need to decrypt any credetials using masterKey
 + Once that is done, right click on your Anypoint mulesoft-payment-gateway-sys-api project folder 
