@@ -50,7 +50,7 @@ Anypoint Studio offers several ways to import a project into the workspace, for 
 Once you have imported you mulesoft-shoppingcart-process-api into Anypoint Studio you need to follow these steps to run it:
 
 + Locate the properties file `mulesoft-payment-gateway-sys-api-<env>.yaml`, in src/main/mule/resources as we need to decrypt any credetials using masterKey
-+ Once that is done, right click on you Anypoint mulesoft-shoppingcart-process-api project folder 
++ Once that is done, right click on your Anypoint mulesoft-payment-gateway-sys-api project folder 
 + Hover you mouse over `"Run as"`
 + Click on  `"Mule Application(configure)"`.
 + Click on Enviromet tab.
