@@ -57,6 +57,7 @@ Once you have imported  mulesoft-payment-gateway-sys-api into Anypoint Studio yo
 + click on Add.
 + Set new environment variable as "Name" : env and "Value" : sandbox
 + Set new environment variable as "Name" : masterKey and "Value" : *********************************
++ Click on Arguments tab and type -Danypoint.platform.gatekeeper=disabled and apply. for disabling the auto discovery.
 
 
 ## Running on CloudHub <a name="runoncloudhub"/>
